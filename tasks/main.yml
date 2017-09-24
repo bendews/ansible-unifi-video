@@ -1,0 +1,26 @@
+---
+- assert:
+    that:
+      - "(ansible_distribution == 'Debian' and ansible_distribution_version >= 7) or (ansible_distribution == 'Ubuntu' and ansible_distribution_version >= 14)"
+    msg: "Unifi-Video requires Debian 7.0 or later or Ubuntu 14.04 or later"
+
+- name: Add Unifi-Video GPG Key
+  apt_key:
+    url: "http://www.ubnt.com/downloads/unifi-video/apt-3.x/unifi-video.gpg.key"
+    state: present
+
+- name: add apt-repo
+  apt_repository:
+    repo: deb [arch=amd64] http://www.ubnt.com/downloads/unifi-video/apt-3.x {{ ansible_distribution_release }} ubiquiti
+    state: present
+
+- name: Check if Unifi-Video is already installed
+  stat:
+    path: "/usr/sbin/unifi-video"
+  register: unifi_video_stat
+
+- name: Install Unifi-Video if not already installed
+  package:
+    name: unifi-video
+    state: latest
+  when: "unifi_video_stat.stat.exists == False or update_package == True"

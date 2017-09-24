@@ -1,0 +1,22 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: Ben Dews
+  description: Role to install Unifi Video on Debian Systems
+  license: MIT
+  min_ansible_version: 2.2
+
+  platforms:
+    - name: Debian
+      versions:
+      - all
+    - name: Ubuntu
+      versions:
+      - all
+
+  galaxy_tags:
+    - unifi-video
+    - unifi
+    - ubiquiti
+    - nvr
